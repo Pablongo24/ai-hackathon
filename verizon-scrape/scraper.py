@@ -20,6 +20,9 @@ class VerizonScraper:
 
     def __init__(self):
         self.sign_in_page = "https://secure.verizon.com/signin"
+        self.response_chat_filters = {
+            'header_allow_from': 'ALLOW-FROM https://autochatva.verizon.com/'
+        }
         self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 
     def run_all(self):
@@ -41,7 +44,7 @@ class VerizonScraper:
 
         responses = [  # TODO: this is not filtering correctly, working on it now
             response for response in responses
-            if 'ALLOW-FROM https://autochatva.verizon.com/' in response.headers.values()
+            if self.response_chat_filters['header_allow_from'] in response.headers.values()
         ]
         decoded_bodies = [decode(response.body, response.headers.get('content-encoding')) for response in responses]
         breakpoint()
