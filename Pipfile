@@ -7,7 +7,7 @@ name = "pypi"
 beautifulsoup4 = "==4.11.1"
 html5lib = "==1.1"
 selenium = "==4.7.2"
-
+webdriver-manager = "==3.8.5"
 
 [dev-packages]
 pytest = "==6.2.5"
