@@ -5,6 +5,7 @@ Main Page: https://www.verizon.com/
 Contact Us: https://www.verizon.com/business/contact-us/phone/  Note: doesn't have a chat window
 Sign in page (has chat window): https://secure.verizon.com/signin
 """
+import json
 
 from bs4 import BeautifulSoup
 # from selenium import webdriver
@@ -58,6 +59,7 @@ class VerizonScraper:
             if self.response_chat_filters['header_allow_from'] in val
         ]
         decoded_bodies = [decode(response.body, response.headers.get('content-encoding')) for response in responses]
+        decoded_bodies = [json.loads(body.decode()) for body in decoded_bodies]
         breakpoint()
 
 
