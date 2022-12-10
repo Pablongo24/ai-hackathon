@@ -19,8 +19,11 @@ class VerizonScraper:
     def __init__(self):
         self.sign_in_page = "https://secure.verizon.com/signin"
         self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+
+    def run_all(self):
         self.driver.get(self.sign_in_page)
         self.driver.implicitly_wait(1)
+        self.get_chat_window()
 
     def get_chat_window(self):
         soup = BeautifulSoup(self.driver.page_source, features='html.parser')
@@ -33,4 +36,4 @@ class VerizonScraper:
 
 if __name__ == "__main__":
     scraper = VerizonScraper()
-    scraper.get_chat_window()
+    scraper.run_all()
