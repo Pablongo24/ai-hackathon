@@ -12,6 +12,8 @@ from seleniumwire import webdriver
 from seleniumwire.utils import decode
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC  # noqa
 from selenium.webdriver.common.keys import Keys  # noqa  TODO: remove noqa if used, delete if not used
 from webdriver_manager.chrome import ChromeDriverManager
 
@@ -40,11 +42,20 @@ class VerizonScraper:
 
     def get_chat_response(self):
         # Get all response objects tracked in selenium driver
-        responses = [request.response for request in self.driver.requests if request.response]
+        try:
+            # TODO: this doesn't find the chat window, even though it loads
+            chat_window_elem = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.ID, "response-pannel"))
+            )
+        except Exception as e:  # TODO: handle exception
+            print(e)
 
-        responses = [  # TODO: this is not filtering correctly, working on it now
+        responses = [request.response for request in self.driver.requests]
+
+        responses = [
             response for response in responses
-            if self.response_chat_filters['header_allow_from'] in response.headers.values()
+            for key, val in response.headers.items()
+            if self.response_chat_filters['header_allow_from'] in val
         ]
         decoded_bodies = [decode(response.body, response.headers.get('content-encoding')) for response in responses]
         breakpoint()
