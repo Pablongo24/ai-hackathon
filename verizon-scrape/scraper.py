@@ -8,13 +8,13 @@ Sign in page (has chat window): https://secure.verizon.com/signin
 import json
 
 from bs4 import BeautifulSoup
-# from selenium import webdriver
 from seleniumwire import webdriver
 from seleniumwire.utils import decode
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC  # noqa
+# noinspection PyPep8Naming
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys  # noqa  TODO: remove noqa if used, delete if not used
 from webdriver_manager.chrome import ChromeDriverManager
 
@@ -60,7 +60,6 @@ class VerizonScraper:
         ]
         decoded_bodies = [decode(response.body, response.headers.get('content-encoding')) for response in responses]
         decoded_bodies = [json.loads(body.decode()) for body in decoded_bodies]
-        breakpoint()
 
 
 if __name__ == "__main__":
